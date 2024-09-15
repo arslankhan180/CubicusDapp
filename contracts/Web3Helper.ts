@@ -1,0 +1,90 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { toast } from "react-toastify";
+import { useContractInstance } from "./instance";
+import addCollections from "@/pages/api/addCollections";
+import { useRouter } from "next/router";
+import addNfts from "@/pages/api/addNfts";
+
+export function useWeb3Helper() {
+  const router = useRouter();
+  const collectionCreate = async (data: any, owner: string, id: string) => {
+    try {
+      const { Factory } = useContractInstance(data?.blockchain);
+      const contract = await Factory();
+
+      const create = await contract.createCollection(
+        data?.collName,
+        data?.collName,
+        owner
+      );
+      const result = await create.wait();
+
+      addCollections({
+        uid: id,
+        img: data?.img,
+        collName: data?.collName,
+        des: data?.des,
+        website: data?.website,
+        twitter: data?.twitter,
+        discord: data?.discord,
+        contractType: data?.contractType,
+        nftPrice: data?.nftPrice,
+        currency: data?.currency,
+        paysFee: data?.paysFee,
+        recipientAddress: data?.recipientAddress,
+        active: data?.active,
+        tab: data?.tab,
+        blockchain: data?.blockchain,
+        owner,
+        collectionAddress: result?.events[2]?.args?.collection,
+        txHash: result?.transactionHash,
+        date: new Date(),
+      });
+      toast.success("Collection Created");
+      router.replace(`/collections`);
+    } catch (error: any) {
+      toast.error(error);
+      console.log(error);
+    }
+  };
+
+  const mintNft = async (
+    id: string,
+    metadata: any,
+    blockchain: string,
+    owner: string,
+    nftAddress: string,
+    data: any
+  ) => {
+    try {
+      const metaHash = `ipfs://${data?.metadatHash}`;
+      const { NFT } = useContractInstance(blockchain);
+      const contract = await NFT(nftAddress);
+      const create = await contract.safeMint(owner, metaHash);
+      const result = await create.wait();
+
+      addNfts({
+        uid: id,
+        imgUrl: data?.imageUrl,
+        metadataUrl: data?.metadataUrl,
+        name: metadata?.name,
+        des: metadata?.description,
+        blockchain,
+        owner,
+        nftAddress,
+        tokenId: Number(result?.events[0]?.args?.tokenId),
+        txHash: result?.transactionHash,
+        date: new Date(),
+      });
+      toast.success("NFT Minted");
+      router.replace(
+        `/collections/nfts?collection=${nftAddress}&&chain=${blockchain}`
+      );
+    } catch (error: any) {
+      toast.error(error);
+      console.log(error);
+    }
+  };
+  return { collectionCreate, mintNft };
+}
