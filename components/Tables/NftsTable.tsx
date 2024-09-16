@@ -61,7 +61,7 @@ export default function NftsTable({ nfts }: any) {
                           ? "amoy"
                           : ""
                       }/${item?.nftAddress}/${item?.tokenId}`}
-                      className="px-4 py-3 rounded-lg bg-[#05B959] font-semibold hover:bg-[#278272] text-white text-xs"
+                      className="px-4 py-3 rounded-lg bg-[#05B959] font-semibold hover:bg-[#278272] text-white text-xs whitespace-nowrap"
                     >
                       View on OpenSea
                     </Link>

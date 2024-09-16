@@ -3,8 +3,8 @@ import React, { useContext, useState } from "react";
 import { Context } from "./Context";
 import { IoCopyOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
-import Input from "./Input";
-import Button from "./Button";
+import Input from "./Comp/Input";
+import Button from "./Comp/Button";
 
 export default function WalletPage() {
   const { user } = useContext(Context);
@@ -86,7 +86,7 @@ export default function WalletPage() {
                 {loading ? (
                   <svg
                     aria-hidden="true"
-                    className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                    className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600 mt-2"
                     viewBox="0 0 100 101"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"

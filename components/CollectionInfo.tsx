@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react";
-import Input from "./Input";
-import TextArea from "./TextArea";
+import Input from "./Comp/Input";
+import TextArea from "./Comp/TextArea";
 import { TbWorld } from "react-icons/tb";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaDiscord } from "react-icons/fa";

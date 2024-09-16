@@ -5,6 +5,7 @@ import { useContractInstance } from "./instance";
 import addCollections from "@/pages/api/addCollections";
 import { useRouter } from "next/router";
 import addNfts from "@/pages/api/addNfts";
+import addTokens from "@/pages/api/addtokens";
 
 export function useWeb3Helper() {
   const router = useRouter();
@@ -49,6 +50,42 @@ export function useWeb3Helper() {
     }
   };
 
+  const tokenCreate = async (data: any, user: any) => {
+    try {
+      const { Factory } = useContractInstance(data?.blockchain);
+      const contract = await Factory();
+      const create = await contract.createToken(
+        data?.name,
+        data?.symbol,
+        data?.totalSupply,
+        user?.wallet?.address
+      );
+      const result = await create.wait();
+      console.log("🚀 ~ tokenCreate ~ result:", result);
+
+      addTokens({
+        uid: user?.uid,
+        img: data?.img,
+        name: data?.name,
+        symbol: data?.symbol,
+        totalSupply: data?.totalSupply,
+        des: data?.des,
+        website: data?.website,
+        twitter: data?.twitter,
+        discord: data?.discord,
+        blockchain: data?.blockchain,
+        owner: user?.wallet?.address,
+        tokenAddress: result?.events[0]?.address,
+        txHash: result?.transactionHash,
+        date: new Date(),
+      });
+
+      toast.success("Token Created");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const mintNft = async (
     id: string,
     metadata: any,
@@ -86,5 +123,5 @@ export function useWeb3Helper() {
       console.log(error);
     }
   };
-  return { collectionCreate, mintNft };
+  return { collectionCreate, tokenCreate, mintNft };
 }

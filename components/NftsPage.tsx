@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useEffect, useState } from "react";
-import NftsTable from "./NftsTable";
+import NftsTable from "./Tables/NftsTable";
 import { Context } from "./Context";
 import { useRouter } from "next/router";
-import Button from "./Button";
+import Button from "./Comp/Button";
 import getAllNfts from "@/pages/api/getAllNfts";
 
 export default function NftsPage() {

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
-import Input from "./Input";
+import Input from "./Comp/Input";
 import { FaAngleDown } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
 import { CiCircleQuestion } from "react-icons/ci";

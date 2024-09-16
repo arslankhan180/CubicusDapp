@@ -12,6 +12,7 @@ import { MdOutlineLogout } from "react-icons/md";
 import { signOut } from "firebase/auth";
 import { auth } from "@/utils/firebase";
 import { Context } from "./Context";
+import { MdOutlineGeneratingTokens } from "react-icons/md";
 
 export default function Sidebar() {
   const { user, setUser } = useContext(Context);
@@ -132,6 +133,25 @@ export default function Sidebar() {
                     color={`${router.pathname.includes("collection") ? "#05b959" : ""}`}
                   />{" "}
                   Collections
+                </p>
+              </div>
+              <div
+                className={`${
+                  router.pathname.includes("tokens")
+                    ? "bg-[#F2F3F3]"
+                    : "bg-transparent"
+                } rounded-lg px-3 py-2 hover:bg-[#F2F3F3] cursor-pointer`}
+                onClick={() => {
+                  //   setActive("collection");
+                  router.replace(`/tokens`);
+                }}
+              >
+                <p className="text-sm font-medium flex gap-2 items-center text-[#00510D]">
+                  <MdOutlineGeneratingTokens
+                    size={20}
+                    color={`${router.pathname.includes("tokens") ? "#05b959" : ""}`}
+                  />{" "}
+                  Tokens
                 </p>
               </div>
               <div

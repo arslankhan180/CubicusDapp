@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
 
-import Button from "./Button";
+import Button from "./Comp/Button";
 import { RxCross2 } from "react-icons/rx";
 import CollectionInfo from "./CollectionInfo";
 import ContractType from "./ContractType";

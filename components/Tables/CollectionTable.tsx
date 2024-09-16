@@ -3,11 +3,16 @@ import React from "react";
 // import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 // import { RiDeleteBinLine } from "react-icons/ri";
 import { IoCopyOutline } from "react-icons/io5";
-import Button from "./Button";
+import Button from "../Comp/Button";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 export default function CollectionTable({ collections }: any) {
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied!");
+  };
   const router = useRouter();
   // function formatDate(dateString: any) {
   //   if (typeof dateString !== "string") {
@@ -71,17 +76,17 @@ export default function CollectionTable({ collections }: any) {
                   key={idx}
                   className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
                 >
-                  <th
-                    
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
+                  <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     <div className="flex gap-2 items-center w-max">
                       <Image alt="" src={item?.img} width={50} height={50} />
                       {item?.collName}
                     </div>
                   </th>
                   <td className="px-6 py-4 flex items-center gap-2 cursor-pointer">
-                    {item?.collectionAddress} <IoCopyOutline />
+                    {item?.collectionAddress}{" "}
+                    <IoCopyOutline
+                      onClick={() => handleCopy(item?.collectionAddress)}
+                    />
                   </td>
                   <td className="px-6 py-4">{item?.blockchain}</td>
                   {/* <td className="px-6 py-4">

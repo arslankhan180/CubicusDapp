@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useEffect, useState } from "react";
-import Input from "./Input";
-import TextArea from "./TextArea";
+import Input from "./Comp/Input";
+import TextArea from "./Comp/TextArea";
 import Image from "next/image";
-import Button from "./Button";
+import Button from "./Comp/Button";
 import { useRouter } from "next/router";
 import { Context } from "./Context";
 import { useWeb3Helper } from "@/contracts/Web3Helper";
