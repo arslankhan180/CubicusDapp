@@ -93,7 +93,7 @@ export default function MintPage() {
     <div>
       <p className="text-2xl text-[#00510D] font-semibold mb-4">Mint NFT</p>
       <div className="mt-4 flex gap-4 h-[60vh] justify-center items-center">
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-md:flex-col">
           <div className="flex flex-col gap-4">
             <p className="text-[#00150D] text-sm font-bold">NFT Name</p>
             <Input

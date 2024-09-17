@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 export default function CollectionTable({ collections }: any) {
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard?.writeText(text);
     toast.success("Copied!");
   };
   const router = useRouter();

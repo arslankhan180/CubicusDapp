@@ -59,7 +59,7 @@ export default function SelectBlockchain({ data, handleChange }: any) {
   return (
     <div>
       <p className="text-[#00150D] text-xl font-semibold text-center">Choose a Chain</p>
-      <div className="grid grid-cols-3 gap-4 mt-4">
+      <div className="grid grid-cols-3 gap-4 mt-4 max-md:grid-cols-2">
         {chains.map((item, idx) => (
           <div
             key={idx}

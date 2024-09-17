@@ -121,7 +121,7 @@ export default function TokenInfo() {
           resetData();
         }}
       />
-      <div className="flex justify-center items-center h-full">
+      <div className="flex justify-center items-center h-full mt-6 pb-6 px-2 max-lg:justify-start max-lg:items-start overflow-scroll">
         <div className="max-w-[800px]">
           {step === 1 && (
             <div className="">
@@ -134,7 +134,7 @@ export default function TokenInfo() {
                 surfaces.
                 <br /> You can edit it later.
               </p>
-              <div className="mt-4 flex gap-4">
+              <div className="mt-4 flex gap-4 max-lg:flex-col">
                 <div className="flex flex-col gap-4 w-1/2">
                   <p className="text-[#00150D] text-sm font-bold">Token Name</p>
                   <Input
@@ -316,7 +316,7 @@ export default function TokenInfo() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 w-full flex flex-col">
+      <div className="min-md:fixed bottom-0 w-full flex flex-col">
         <div className="w-full bg-gray-200 rounded-full h-1 dark:bg-gray-700">
           <div
             className={`bg-[#05B96E] h-1 rounded-full`}

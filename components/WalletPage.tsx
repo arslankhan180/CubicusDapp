@@ -13,8 +13,12 @@ export default function WalletPage() {
   const [key, setKey] = useState<any>("");
   const [loading, setLoading] = useState<boolean>(false);
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast.success("Copied!");
+    try {
+      navigator.clipboard?.writeText(text);
+      toast.success("Copied!");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getPrivate = async () => {
@@ -53,7 +57,13 @@ export default function WalletPage() {
         <div className="flex flex-col gap-2">
           <div className="w-full flex justify-between bg-white rounded-lg py-4 gap-4 mt-4 px-6">
             <p className="text-[#00510D] text-sm font-semibold flex items-center gap-2">
-              {user?.wallet?.address}{" "}
+              {`${user?.wallet?.address.slice(
+                0,
+                8
+              )}...${user?.wallet?.address.slice(
+                -8,
+                user?.wallet?.address.length
+              )}`}{" "}
               <IoCopyOutline
                 className="cursor-pointer"
                 onClick={() => handleCopy(user?.wallet?.address)}
@@ -71,7 +81,7 @@ export default function WalletPage() {
             </p>
           </div>
           {show && (
-            <div className="w-full flex justify-between bg-white rounded-lg py-4 gap-4 px-6">
+            <div className="w-full flex justify-between bg-white rounded-lg py-4 gap-4 px-6 max-md:flex-col">
               <div>
                 <label className="text-black text-sm">
                   Enter You Account Password
@@ -108,7 +118,7 @@ export default function WalletPage() {
               </div>
               {key && (
                 <p className="text-[#00510D] text-sm font-semibold flex items-center gap-2">
-                  {key}{" "}
+                  {`${key.slice(0, 8)}...${key.slice(-8, key.length)}`}{" "}
                   <IoCopyOutline
                     className="cursor-pointer"
                     onClick={() => handleCopy(key)}

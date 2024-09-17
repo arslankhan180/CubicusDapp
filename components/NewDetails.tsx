@@ -152,7 +152,7 @@ export default function NewDetails() {
         }}
       />
 
-      <div className="flex justify-center items-center h-full">
+      <div className="flex justify-center items-center h-full mt-6 pb-6 px-2 max-lg:justify-start max-lg:items-start overflow-scroll">
         {step === 1 && (
           <CollectionInfo
             data={data}
@@ -175,7 +175,7 @@ export default function NewDetails() {
         {step === 5 && <ReviewCollection data={data} />}
       </div>
 
-      <div className="fixed bottom-0 w-full flex flex-col">
+      <div className="min-md:fixed bottom-0 w-full flex flex-col">
         <div className="w-full bg-gray-200 rounded-full h-1 dark:bg-gray-700">
           <div
             className={`bg-[#05B96E] h-1 rounded-full`}

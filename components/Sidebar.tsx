@@ -17,6 +17,7 @@ import { MdOutlineGeneratingTokens } from "react-icons/md";
 export default function Sidebar() {
   const { user, setUser } = useContext(Context);
   const [active, setActive] = useState<string>("overview");
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
 
   const clearUserLocalStorage = () => {
@@ -40,14 +41,18 @@ export default function Sidebar() {
       console.log(error);
     }
   };
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div>
       <button
-        data-drawer-target="default-sidebar"
-        data-drawer-toggle="default-sidebar"
+        onClick={toggleSidebar}
         aria-controls="default-sidebar"
         type="button"
-        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        className="absolute right-2 z-20 inline-flex items-center p-1 mt-2 ml-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
       >
         <span className="sr-only">Open sidebar</span>
         <svg
@@ -67,10 +72,12 @@ export default function Sidebar() {
 
       <aside
         id="default-sidebar"
-        className="w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className={`max-md:fixed top-0 left-0 z-40 w-64 h-screen transition-transform transform bg-gray-50 dark:bg-gray-800 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } sm:translate-x-0`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 relative">
           <div className="flex flex-col justify-between h-full">
             <div className="flex flex-col space-y-2">
               <div className="flex items-center justify-between w-full gap-2">
@@ -99,19 +106,18 @@ export default function Sidebar() {
               <hr />
               <div
                 className={`${
-                  router.pathname === ("/")
-                    ? "bg-[#F2F3F3]"
-                    : "bg-transparent"
+                  router.pathname === "/" ? "bg-[#F2F3F3]" : "bg-transparent"
                 } rounded-lg px-3 py-2 hover:bg-[#F2F3F3] cursor-pointer`}
                 onClick={() => {
-                    // setActive("overview");
+                  // setActive("overview");
+                  setSidebarOpen(false);
                   router.replace(`/`);
                 }}
               >
                 <p className="text-sm font-medium flex gap-2 items-center text-[#00510D]">
                   <RiHomeSmileLine
                     size={20}
-                    color={`${router.pathname === ("/") ? "#05b959" : ""}`}
+                    color={`${router.pathname === "/" ? "#05b959" : ""}`}
                   />{" "}
                   Overview
                 </p>
@@ -124,13 +130,16 @@ export default function Sidebar() {
                 } rounded-lg px-3 py-2 hover:bg-[#F2F3F3] cursor-pointer`}
                 onClick={() => {
                   //   setActive("collection");
+                  setSidebarOpen(false);
                   router.replace(`/collections`);
                 }}
               >
                 <p className="text-sm font-medium flex gap-2 items-center text-[#00510D]">
                   <CiImageOn
                     size={20}
-                    color={`${router.pathname.includes("collection") ? "#05b959" : ""}`}
+                    color={`${
+                      router.pathname.includes("collection") ? "#05b959" : ""
+                    }`}
                   />{" "}
                   Collections
                 </p>
@@ -143,13 +152,16 @@ export default function Sidebar() {
                 } rounded-lg px-3 py-2 hover:bg-[#F2F3F3] cursor-pointer`}
                 onClick={() => {
                   //   setActive("collection");
+                  setSidebarOpen(false);
                   router.replace(`/tokens`);
                 }}
               >
                 <p className="text-sm font-medium flex gap-2 items-center text-[#00510D]">
                   <MdOutlineGeneratingTokens
                     size={20}
-                    color={`${router.pathname.includes("tokens") ? "#05b959" : ""}`}
+                    color={`${
+                      router.pathname.includes("tokens") ? "#05b959" : ""
+                    }`}
                   />{" "}
                   Tokens
                 </p>
@@ -161,14 +173,17 @@ export default function Sidebar() {
                     : "bg-transparent"
                 } rounded-lg px-3 py-2 hover:bg-[#F2F3F3] cursor-pointer`}
                 onClick={() => {
-                  setActive("wallets");
+                  // setActive("wallets");
+                  setSidebarOpen(false);
                   router.replace(`/wallets`);
                 }}
               >
                 <p className="text-sm font-medium flex gap-2 items-center text-[#00510D]">
                   <LuWallet2
                     size={20}
-                    color={`${router.pathname.includes("wallets") ? "#05b959" : ""}`}
+                    color={`${
+                      router.pathname.includes("wallets") ? "#05b959" : ""
+                    }`}
                   />{" "}
                   Wallets
                 </p>
@@ -178,7 +193,10 @@ export default function Sidebar() {
                 className={`${
                   active === "integrate" ? "bg-[#F2F3F3]" : "bg-transparent"
                 } rounded-lg px-3 py-2 hover:bg-[#F2F3F3] cursor-pointer`}
-                onClick={() => setActive("integrate")}
+                onClick={() => {
+                  setActive("integrate");
+                  setSidebarOpen(false);
+                }}
               >
                 <p className="text-sm font-medium flex gap-2 items-center text-[#00510D]">
                   <LuChevronsLeftRight
@@ -192,7 +210,10 @@ export default function Sidebar() {
                 className={`${
                   active === "settings" ? "bg-[#F2F3F3]" : "bg-transparent"
                 } rounded-lg px-3 py-2 hover:bg-[#F2F3F3] cursor-pointer`}
-                onClick={() => setActive("settings")}
+                onClick={() => {
+                  setActive("settings");
+                  setSidebarOpen(false);
+                }}
               >
                 <p className="text-sm font-medium flex gap-2 items-center text-[#00510D]">
                   <CiSettings
@@ -208,7 +229,10 @@ export default function Sidebar() {
                 className={`${
                   active === "pricing" ? "bg-[#F2F3F3]" : "bg-transparent"
                 } rounded-lg px-3 py-2 hover:bg-[#F2F3F3] cursor-pointer`}
-                onClick={() => setActive("pricing")}
+                onClick={() => {
+                  setActive("pricing");
+                  setSidebarOpen(false);
+                }}
               >
                 <p className="text-sm font-medium flex gap-2 items-center text-[#00510D]">
                   <IoPricetagOutline
@@ -222,7 +246,10 @@ export default function Sidebar() {
                 className={`${
                   active === "doc" ? "bg-[#F2F3F3]" : "bg-transparent"
                 } rounded-lg px-3 py-2 hover:bg-[#F2F3F3] cursor-pointer`}
-                onClick={() => setActive("doc")}
+                onClick={() => {
+                  setActive("doc");
+                  setSidebarOpen(false);
+                }}
               >
                 <p className="text-sm font-medium flex gap-2 items-center text-[#00510D]">
                   <BsFiletypeDoc
@@ -236,7 +263,10 @@ export default function Sidebar() {
                 className={`${
                   active === "contact" ? "bg-[#F2F3F3]" : "bg-transparent"
                 } rounded-lg px-3 py-2 hover:bg-[#F2F3F3] cursor-pointer`}
-                onClick={() => setActive("contact")}
+                onClick={() => {
+                  setActive("contact");
+                  setSidebarOpen(false);
+                }}
               >
                 <p className="text-sm font-medium flex gap-2 items-center text-[#00510D]">
                   <CiMail
@@ -288,6 +318,12 @@ export default function Sidebar() {
           </div>
         </div>
       </aside>
+      {isSidebarOpen && (
+        <div
+          onClick={toggleSidebar}
+          className="fixed inset-0 z-30 bg-black opacity-50 sm:hidden"
+        ></div>
+      )}
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default function DefaultLayout({
             {/* <w3m-button /> */}
           </div>
         </div>
-        <div className="p-4 w-full overflow-x-scroll">
+        <div className="p-4 w-full overflow-x-scroll max-md:p-1">
           <main>{children}</main>
         </div>
       </div>

@@ -27,7 +27,7 @@ export default function CollectionInfo({
   handleUpload,
 }: CollectionInfoProps) {
   return (
-    <div>
+    <div className="">
       <p className="text-[#00150D] text-xl font-semibold">
         Enter collection information
       </p>
@@ -36,7 +36,7 @@ export default function CollectionInfo({
         launching, and will be used as a preview in different UI surfaces.
         <br /> You can edit it later.
       </p>
-      <div className="mt-4 flex gap-4">
+      <div className="mt-4 flex gap-4 max-lg:flex-col">
         <div className="flex flex-col gap-4">
           <p className="text-[#00150D] text-sm font-bold">Collection Name</p>
           <Input

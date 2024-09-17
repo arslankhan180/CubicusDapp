@@ -11,7 +11,7 @@ import Image from "next/image";
 
 export default function ReviewCollection({ data }: any) {
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard?.writeText(text);
     toast.success("Address copied!");
   };
   return (
@@ -23,7 +23,7 @@ export default function ReviewCollection({ data }: any) {
         Almost there! Take a final look and confirm your collection details
         before they get deployed to the blockchain.
       </p>
-      <div className="mt-4 flex gap-4">
+      <div className="mt-4 flex gap-4 max-lg:flex-col">
         <div className="flex flex-col h-full gap-2">
         <Image src={data?.img} alt="" width={256} height={256} className="rounded-lg max-w-[256px] max-h-[256px]" />
           <div className="flex flex-col justify-center h-full">
