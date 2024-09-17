@@ -52,7 +52,7 @@ export default function TokenPage() {
           <p className="text-sm text-[#67797F]">
             Create your first token with Cubicus Dapp
           </p>
-          <Button onClick={() => router.replace(`/collections/newdetails`)}>
+          <Button onClick={() => router.replace(`/tokens/newtoken`)}>
             New Token
           </Button>
         </div>

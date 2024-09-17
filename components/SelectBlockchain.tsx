@@ -35,6 +35,21 @@ export default function SelectBlockchain({ data, handleChange }: any) {
       symbol: "FTM",
       img: "/images/ftmLogo.png",
     },
+    {
+      name: "Solana",
+      symbol: "SOL",
+      img: "/images/solana.png",
+    },
+    {
+      name: "Internet Computer",
+      symbol: "ICP",
+      img: "/images/icp.png",
+    },
+    {
+      name: "Ton Token",
+      symbol: "TON",
+      img: "/images/ton.png",
+    },
   ];
 
   const handleChainChange = (selectedChain: string) => {
@@ -44,7 +59,7 @@ export default function SelectBlockchain({ data, handleChange }: any) {
   return (
     <div>
       <p className="text-[#00150D] text-xl font-semibold text-center">Choose a Chain</p>
-      <div className="grid grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-3 gap-4 mt-4">
         {chains.map((item, idx) => (
           <div
             key={idx}
