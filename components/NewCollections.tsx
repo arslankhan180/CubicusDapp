@@ -19,9 +19,7 @@ export default function NewCollections() {
       if (Array.isArray(allCollections)) {
         // Filter collections based on the logged-in user's address
         const userCollections = allCollections.filter(
-          (collection: any) =>
-            collection.owner.toLowerCase() ===
-            user?.wallet?.address.toLowerCase()
+          (collection: any) => collection.uid === user?.uid
         );
         setCollections(userCollections);
       } else {

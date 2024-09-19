@@ -7,10 +7,11 @@ import Button from "./Comp/Button";
 import { useRouter } from "next/router";
 import { Context } from "./Context";
 import { useWeb3Helper } from "@/contracts/Web3Helper";
+import { toast } from "react-toastify";
 
 export default function MintPage() {
   const { user } = useContext(Context);
-  const { mintNft }: any = useWeb3Helper();
+  const { mintNft, mintSolNft }: any = useWeb3Helper();
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -59,20 +60,34 @@ export default function MintPage() {
       const data = await response.json();
 
       if (response.ok) {
-        await mintNft(
-          user?.uid,
-          metadata,
-          chainName,
-          user?.wallet?.address,
-          collectionAddress,
-          data
-        );
+        if (chainName === "SOL") {
+          await mintSolNft(
+            user?.uid,
+            metadata,
+            chainName,
+            user?.solWallet?.address,
+            collectionAddress,
+            data
+          );
+          setLoading(false);
+        } else {
+          await mintNft(
+            user?.uid,
+            metadata,
+            chainName,
+            user?.wallet?.address,
+            collectionAddress,
+            data
+          );
+          setLoading(false);
+        }
       } else {
         console.log(`Error: ${data.error}`);
         setLoading(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       setLoading(false);
+      toast.error(error);
       console.error("Error uploading NFT:", error);
       console.log("Upload failed");
     }

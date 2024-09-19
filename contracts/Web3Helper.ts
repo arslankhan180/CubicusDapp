@@ -100,7 +100,7 @@ export function useWeb3Helper() {
     });
 
     if (!response.ok) {
-     console.error("Failed to create SPL token");
+      console.error("Failed to create SPL token");
     }
 
     const result = await response.json(); // Parse JSON response
@@ -121,6 +121,50 @@ export function useWeb3Helper() {
       txHash: result?.mintSignature,
       date: new Date(),
     });
+  };
+
+  const createSolCollection = async (data: any, owner: string, id: string) => {
+    const response = await fetch("/api/splCreateCollection", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        collectionName: data?.collName,
+        collectionSymbol: data?.collName,
+        tokenOwner: owner,
+      }),
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      console.log(`Collection created successfully: ${result.collectionMint}`);
+      console.log(result.collectionMint); // Store the collection mint
+
+      addCollections({
+        uid: id,
+        img: data?.img,
+        collName: data?.collName,
+        des: data?.des,
+        website: data?.website,
+        twitter: data?.twitter,
+        discord: data?.discord,
+        contractType: data?.contractType,
+        nftPrice: data?.nftPrice,
+        currency: data?.currency,
+        paysFee: data?.paysFee,
+        recipientAddress: data?.recipientAddress,
+        active: data?.active,
+        tab: data?.tab,
+        blockchain: data?.blockchain,
+        owner,
+        collectionAddress: result?.collectionMint,
+        txHash: result?.collectionSignature,
+        date: new Date(),
+      });
+      toast.success("Collection Created");
+      router.replace(`/collections`);
+    } else {
+      console.log(`Error: ${result.message}`);
+    }
   };
 
   const mintNft = async (
@@ -160,5 +204,58 @@ export function useWeb3Helper() {
       console.log(error);
     }
   };
-  return { collectionCreate, tokenCreate, createSPL, mintNft };
+
+  const mintSolNft = async (
+    id: string,
+    metadata: any,
+    blockchain: string,
+    owner: string,
+    nftAddress: string,
+    data: any
+  ) => {
+    const response = await fetch("/api/splMintNft", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        collectionMintAddress: nftAddress,
+        uris: [data?.imageUrl],
+        tokenOwner: owner,
+      }),
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      console.log(
+        `NFTs minted successfully! Addresses: ${result.nftAddresses}`
+      );
+      addNfts({
+        uid: id,
+        imgUrl: data?.imageUrl,
+        metadataUrl: data?.metadataUrl,
+        name: metadata?.name,
+        des: metadata?.description,
+        blockchain,
+        owner,
+        nftAddress,
+        tokenId: result?.nftAddresses,
+        txHash: result?.nftSignatures,
+        date: new Date(),
+      });
+      toast.success("NFT Minted");
+      router.replace(
+        `/collections/nfts?collection=${nftAddress}&&chain=${blockchain}`
+      );
+    } else {
+      console.log(`Error: ${result.message}`);
+    }
+  };
+
+  return {
+    collectionCreate,
+    tokenCreate,
+    createSPL,
+    createSolCollection,
+    mintNft,
+    mintSolNft,
+  };
 }

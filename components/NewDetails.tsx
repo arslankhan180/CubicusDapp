@@ -22,7 +22,7 @@ export default function NewDetails() {
   const router = useRouter();
   const MAX_STEP = 5;
 
-  const { collectionCreate }: any = useWeb3Helper();
+  const { collectionCreate, createSolCollection }: any = useWeb3Helper();
 
   const initialData = {
     img: "",
@@ -130,26 +130,16 @@ export default function NewDetails() {
     });
   };
 
-  // const createNft = async () => {
-  //   const response = await fetch("/api/SPLToken", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       name: "data?.name",
-  //       symbol: "data?.symbol",
-  //       totalSupply: "data?.totalSupply",
-  //       uri: "data?.img",
-  //       tokenOwner: "DDmxsRysq6NS8tA6nvm4TwFUCd4xkESdHVxU3yNYnrHy",
-  //     }),
-  //   });
-  //   const result = await response.json(); // Parse JSON response
-  //   console.log("Response data:", result);
-  // }
-
   const create = async () => {
     try {
       setLoading(true);
-      await collectionCreate(data, user?.wallet?.address, user?.uid);
+      if (data?.blockchain === "SOL") {
+        await createSolCollection(data, user?.solWallet?.address, user?.uid);
+        setLoading(false);
+      } else {
+        await collectionCreate(data, user?.wallet?.address, user?.uid);
+        setLoading(false);
+      }
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -168,7 +158,7 @@ export default function NewDetails() {
         }}
       />
 
-      <div className="flex justify-center items-center h-full mt-6 pb-6 px-2 max-lg:justify-start max-lg:items-start overflow-scroll">
+      <div className="flex justify-center items-center h-full mt-6 pb-6 px-2 max-lg:justify-start max-lg:items-start overflow-scroll scrollStyle">
         {step === 1 && (
           <CollectionInfo
             data={data}

@@ -22,11 +22,7 @@ export default function NftsPage() {
       const allNfts = await getAllNfts();
       if (Array.isArray(allNfts)) {
         // Filter collections based on the logged-in user's address
-        const userNfts = allNfts.filter(
-          (nft: any) =>
-            nft.owner.toLowerCase() ===
-            user?.wallet?.address.toLowerCase()
-        );
+        const userNfts = allNfts.filter((nft: any) => nft.uid === user?.uid);
         setNfts(userNfts);
       } else {
         // Handle the case where allCollections is undefined or not an array

@@ -54,16 +54,20 @@ export default function NftsTable({ nfts }: any) {
                   <td className="px-6 py-4">
                     <Link
                       target="_blank"
-                      href={`https://testnets.opensea.io/assets/${
-                        item?.blockchain === "ETH"
-                          ? "sepolia"
-                          : item?.blockchain === "MATIC"
-                          ? "amoy"
-                          : ""
-                      }/${item?.nftAddress}/${item?.tokenId}`}
+                      href={
+                        item?.blockchain === "SOL"
+                          ? `https://explorer.solana.com/address/${item?.tokenId}?cluster=devnet`
+                          : `https://testnets.opensea.io/assets/${
+                              item?.blockchain === "ETH"
+                                ? "sepolia"
+                                : item?.blockchain === "MATIC"
+                                ? "amoy"
+                                : ""
+                            }/${item?.nftAddress}/${item?.tokenId}`
+                      }
                       className="px-4 py-3 rounded-lg bg-[#05B959] font-semibold hover:bg-[#278272] text-white text-xs whitespace-nowrap"
                     >
-                      View on OpenSea
+                      View
                     </Link>
                   </td>
                 </tr>
