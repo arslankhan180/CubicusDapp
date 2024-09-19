@@ -18,7 +18,7 @@ import { useWeb3Helper } from "@/contracts/Web3Helper";
 export default function TokenInfo() {
   const { user } = useContext(Context);
 
-  const { tokenCreate } = useWeb3Helper();
+  const { tokenCreate, createSPL } = useWeb3Helper();
 
   const router = useRouter();
   const MAX_STEP = 2;
@@ -96,8 +96,13 @@ export default function TokenInfo() {
   const create = async () => {
     try {
       setLoading(true);
-      await tokenCreate(data, user);
-      setLoading(false);
+      if (data?.blockchain === "SOL") {
+        await createSPL(data, user);
+        setLoading(false);
+      } else {
+        await tokenCreate(data, user);
+        setLoading(false);
+      }
       router.replace("/tokens");
       resetData();
     } catch (error) {

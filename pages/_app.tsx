@@ -11,29 +11,29 @@ import "react-toastify/dist/ReactToastify.css";
 import getUser from "./api/getUser";
 
 export default function App({ Component, pageProps }: AppProps) {
-    const [user, setUser] = useState<any>(null);
-    const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  const router = useRouter();
 
-    const getUserLocalStorage = () => {
-      auth.onAuthStateChanged(async (user) => {
-        if (!user) return router.replace("/login");
-        const firebaseUser = await getUser(user?.uid);
-        const dbUser = await getDoc(doc(db, "crossMint", user?.uid));
-        setUser({ ...firebaseUser, ...dbUser.data(), id: user?.uid });
-      });
-    };
+  const getUserLocalStorage = () => {
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) return router.replace("/login");
+      const firebaseUser = await getUser(user?.uid);
+      const dbUser = await getDoc(doc(db, "crossMint", user?.uid));
+      setUser({ ...firebaseUser, ...dbUser.data(), id: user?.uid });
+    });
+  };
 
-    useEffect(() => {
-      getUserLocalStorage();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [router.pathname]);
+  useEffect(() => {
+    getUserLocalStorage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.pathname]);
 
-    return (
-        <>
-            <Context.Provider value={{ user, setUser }}>
-                <Component {...pageProps} />
-                <ToastContainer />
-            </Context.Provider>
-        </>
-    );
+  return (
+    <>
+        <Context.Provider value={{ user, setUser }}>
+          <Component {...pageProps} />
+          <ToastContainer />
+        </Context.Provider>
+    </>
+  );
 }

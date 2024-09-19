@@ -86,6 +86,43 @@ export function useWeb3Helper() {
     }
   };
 
+  const createSPL = async (data: any, user: any) => {
+    const response = await fetch("/api/SPLToken", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: data?.name,
+        symbol: data?.symbol,
+        totalSupply: data?.totalSupply,
+        uri: data?.img,
+        tokenOwner: "DDmxsRysq6NS8tA6nvm4TwFUCd4xkESdHVxU3yNYnrHy",
+      }),
+    });
+
+    if (!response.ok) {
+     console.error("Failed to create SPL token");
+    }
+
+    const result = await response.json(); // Parse JSON response
+    console.log("Response data:", result);
+    addTokens({
+      uid: user?.uid,
+      img: data?.img,
+      name: data?.name,
+      symbol: data?.symbol,
+      totalSupply: data?.totalSupply,
+      des: data?.des,
+      website: data?.website,
+      twitter: data?.twitter,
+      discord: data?.discord,
+      blockchain: data?.blockchain,
+      owner: "DDmxsRysq6NS8tA6nvm4TwFUCd4xkESdHVxU3yNYnrHy",
+      tokenAddress: result?.mintAddress,
+      txHash: result?.mintSignature,
+      date: new Date(),
+    });
+  };
+
   const mintNft = async (
     id: string,
     metadata: any,
@@ -123,5 +160,5 @@ export function useWeb3Helper() {
       console.log(error);
     }
   };
-  return { collectionCreate, tokenCreate, mintNft };
+  return { collectionCreate, tokenCreate, createSPL, mintNft };
 }

@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { IoCopyOutline } from "react-icons/io5";
-import Button from "../Comp/Button";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 export default function TokenTable({ collections }: any) {
-
   const handleCopy = (text: string) => {
     navigator.clipboard?.writeText(text);
     toast.success("Copied!");
@@ -54,7 +53,10 @@ export default function TokenTable({ collections }: any) {
                     </div>
                   </th>
                   <td className="px-6 py-4 flex items-center gap-2 cursor-pointer">
-                    {item?.tokenAddress} <IoCopyOutline onClick={() => handleCopy(item?.tokenAddress)} />
+                    {item?.tokenAddress}{" "}
+                    <IoCopyOutline
+                      onClick={() => handleCopy(item?.tokenAddress)}
+                    />
                   </td>
                   <td className="px-6 py-4">{item?.totalSupply}</td>
                   <td className="px-6 py-4">{item?.blockchain}</td>
@@ -62,16 +64,17 @@ export default function TokenTable({ collections }: any) {
                     {item?.date ? formatDate(item.date) : "N/A"}
                   </td> */}
                   <td className="px-6 py-4 flex gap-2">
-                    <Button
-                      className="text-white"
-                      // onClick={() =>
-                      //   router.replace(
-                      //     `/collections/nfts?collection=${item?.collectionAddress}&&chain=${item?.blockchain}`
-                      //   )
-                      // }
+                    <Link
+                      className="text-white px-4 py-3 rounded-lg bg-[#05B959] text-sm font-semibold hover:bg-[#278272]"
+                      target="_blank"
+                      href={
+                        item?.blockchain === "SOL"
+                          ? `https://explorer.solana.com/address/${item?.tokenAddress}?cluster=devnet`
+                          : `https://sepolia.etherscan.io/address/${item?.tokenAddress}`
+                      }
                     >
                       View
-                    </Button>
+                    </Link>
                   </td>
                 </tr>
               ))

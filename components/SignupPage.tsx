@@ -33,12 +33,23 @@ export default function SignupPage({ setActive }: any) {
         body: JSON.stringify({ password: data.pass }),
       });
 
+      const response1 = await fetch("/api/createSolanaWallet", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: data?.pass }),
+      });
+
+      if (!response.ok) {
+        toast.error("Failed to create wallet");
+      }
+
       if (!response.ok) {
         setLoading(false);
         toast.error("Failed to create wallet");
       }
 
       const result = await response.json();
+      const result1 = await response1.json();
 
       const { user }: any = await createUserWithEmailAndPassword(
         auth,
@@ -53,6 +64,7 @@ export default function SignupPage({ setActive }: any) {
         lName: data?.lName,
         email: data?.email,
         wallet: result,
+        solWallet: result1,
       });
       router.replace("/");
       setLoading(false);
