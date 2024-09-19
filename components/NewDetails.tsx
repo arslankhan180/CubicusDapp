@@ -130,6 +130,22 @@ export default function NewDetails() {
     });
   };
 
+  // const createNft = async () => {
+  //   const response = await fetch("/api/SPLToken", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({
+  //       name: "data?.name",
+  //       symbol: "data?.symbol",
+  //       totalSupply: "data?.totalSupply",
+  //       uri: "data?.img",
+  //       tokenOwner: "DDmxsRysq6NS8tA6nvm4TwFUCd4xkESdHVxU3yNYnrHy",
+  //     }),
+  //   });
+  //   const result = await response.json(); // Parse JSON response
+  //   console.log("Response data:", result);
+  // }
+
   const create = async () => {
     try {
       setLoading(true);

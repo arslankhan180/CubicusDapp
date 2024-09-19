@@ -95,7 +95,7 @@ export function useWeb3Helper() {
         symbol: data?.symbol,
         totalSupply: data?.totalSupply,
         uri: data?.img,
-        tokenOwner: "DDmxsRysq6NS8tA6nvm4TwFUCd4xkESdHVxU3yNYnrHy",
+        tokenOwner: user?.solWallet?.address,
       }),
     });
 
