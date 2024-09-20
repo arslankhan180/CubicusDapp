@@ -14,6 +14,8 @@ export default function MintPage() {
   const { mintNft, mintSolNft }: any = useWeb3Helper();
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<string>("upload");
+  const [promptText, setPromptText] = useState<string>("");
 
   const [collectionAddress, setCollectionAddress] = useState<string | null>(
     null
@@ -93,6 +95,36 @@ export default function MintPage() {
     }
   };
 
+  const handleSubmit1 = async (event: any) => {
+    event.preventDefault();
+    setLoading(true);
+    if (!promptText) {
+      setLoading(false);
+      toast.error("Please Enter a prompt");
+      return;
+    }
+
+    const response = await fetch("/api/stablediffusion", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text: promptText }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data[0]);
+      const base64String = data[0].toString();
+      console.log("🚀 ~ handleSubmit1 ~ base64String:", base64String);
+      setImage(base64String);
+    } else {
+      console.error("Error:", response.statusText);
+      toast.error(response.statusText)
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     if (router) {
       const { collection, chain } = router.query;
@@ -107,7 +139,29 @@ export default function MintPage() {
   return (
     <div>
       <p className="text-2xl text-[#00510D] font-semibold mb-4">Mint NFT</p>
-      <div className="mt-4 flex gap-4 h-[60vh] justify-center items-center">
+      <div className="flex items-center w-full justify-around gap-2">
+        <button
+          className={`${
+            activeTab === "upload"
+              ? "border-b-[#05B96E] text-[#00510D]"
+              : "border-b-black text-black"
+          } border-b w-full font-bold`}
+          onClick={() => setActiveTab("upload")}
+        >
+          Upload Image
+        </button>
+        <button
+          className={`${
+            activeTab === "create"
+              ? "border-b-[#05B96E] text-[#00510D]"
+              : "border-b-black text-black"
+          } border-b w-full font-bold`}
+          onClick={() => setActiveTab("create")}
+        >
+          Create Image With AI
+        </button>
+      </div>
+      <div className="mt-4 flex gap-4 h-[60vh] max-md:h-full justify-center items-center">
         <div className="flex gap-4 max-md:flex-col">
           <div className="flex flex-col gap-4">
             <p className="text-[#00150D] text-sm font-bold">NFT Name</p>
@@ -127,50 +181,76 @@ export default function MintPage() {
             />
           </div>
           <div className="flex flex-col h-full gap-2">
-            {image ? (
-              <Image
-                src={`data:image/png;base64,${image}`}
-                alt=""
-                width={256}
-                height={256}
-                className="rounded-lg max-w-[256px] max-h-[256px]"
-              />
-            ) : (
+            {activeTab === "upload" ? (
               <>
-                <div className="border border-dashed border-[#05B96E] w-[256px] h-[256px] p-4 rounded-lg bg-[#F1FCFE] flex flex-col justify-center items-center cursor-pointer">
-                  <label className="flex flex-col justify-center items-center w-full h-full cursor-pointer">
-                    <input
-                      type="file"
-                      accept="image/png, image/jpeg, image/jpg"
-                      className="hidden"
-                      onChange={handleImageChange}
-                    />
-                    <p className="text-[#05B96E] text-sm font-bold">
-                      Choose files or drag & drop
-                    </p>
-                    <p className="text-[#67797F] text-xs text-center">
-                      Image (jpg, png, webp, gif) up to 1MB.
-                    </p>
-                  </label>
-                </div>
-                <div className="flex flex-col justify-center h-full">
-                  <div className="flex justify-between items-center">
-                    <p className="text-[#00150D] font-semibold">
-                      {metadata?.name ? metadata?.name : "Collection Name"}
-                    </p>
-                  </div>
-                  <p className="text-[#67797F] text-sm">
-                    {metadata?.description
-                      ? metadata?.description
-                      : "Description"}
-                  </p>
-                </div>
+                {image ? (
+                  <Image
+                    src={`data:image/png;base64,${image}` || image}
+                    alt=""
+                    width={256}
+                    height={256}
+                    className="rounded-lg max-w-[256px] max-h-[256px]"
+                  />
+                ) : (
+                  <>
+                    <div className="border border-dashed border-[#05B96E] w-[256px] h-[256px] p-4 rounded-lg bg-[#F1FCFE] flex flex-col justify-center items-center cursor-pointer">
+                      <label className="flex flex-col justify-center items-center w-full h-full cursor-pointer">
+                        <input
+                          type="file"
+                          accept="image/png, image/jpeg, image/jpg"
+                          className="hidden"
+                          onChange={handleImageChange}
+                        />
+                        <p className="text-[#05B96E] text-sm font-bold">
+                          Choose files or drag & drop
+                        </p>
+                        <p className="text-[#67797F] text-xs text-center">
+                          Image (jpg, png, webp, gif) up to 1MB.
+                        </p>
+                      </label>
+                    </div>
+                  </>
+                )}
               </>
+            ) : (
+              <div className="flex flex-col gap-4">
+                <p className="text-[#00150D] text-sm font-bold">
+                  Enter a prompt
+                </p>
+                <Input
+                  placeholder="Enter a promt"
+                  type="text"
+                  name="prompt"
+                  value={promptText}
+                  onChange={(e) => setPromptText(e.target.value)}
+                />
+                {image ? (
+                  <Image
+                    src={`data:image/png;base64,${image}` || image}
+                    alt=""
+                    width={256}
+                    height={256}
+                    className="rounded-lg max-w-[256px] max-h-[256px]"
+                  />
+                ) : (
+                  <Button onClick={handleSubmit1}>Create Image</Button>
+                )}
+              </div>
             )}
+            <div className="flex flex-col justify-center h-full">
+              <div className="flex justify-between items-center">
+                <p className="text-[#00150D] font-semibold">
+                  {metadata?.name ? metadata?.name : "Collection Name"}
+                </p>
+              </div>
+              <p className="text-[#67797F] text-sm">
+                {metadata?.description ? metadata?.description : "Description"}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-4">
         {loading ? (
           <svg
             aria-hidden="true"

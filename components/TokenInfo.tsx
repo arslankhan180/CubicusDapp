@@ -126,7 +126,7 @@ export default function TokenInfo() {
           resetData();
         }}
       />
-      <div className="flex justify-center items-center h-full mt-6 pb-6 px-2 max-lg:justify-start max-lg:items-start overflow-scroll">
+      <div className="flex justify-center items-center h-full mt-6 pb-6 px-2 max-lg:justify-start max-lg:items-start overflow-scroll scrollStyle">
         <div className="max-w-[800px]">
           {step === 1 && (
             <div className="">

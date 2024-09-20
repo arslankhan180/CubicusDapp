@@ -50,6 +50,11 @@ export default function SelectBlockchain({ data, handleChange }: any) {
       symbol: "TON",
       img: "/images/ton.png",
     },
+    {
+      name: "U2U Network",
+      symbol: "U2U",
+      img: "/images/u2u.png",
+    },
   ];
 
   const handleChainChange = (selectedChain: string) => {

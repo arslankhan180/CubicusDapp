@@ -9,6 +9,7 @@ export function useContractInstance(blockchain) {
     ETH: "https://1rpc.io/sepolia",
     BNB: "https://bsc-testnet-rpc.publicnode.com",
     FTM: "https://bsc-testnet-rpc.publicnode.com",
+    U2U: "https://rpc-nebulas-testnet.uniultra.xyz",
   };
 
   const contractAddresses = {
@@ -16,6 +17,7 @@ export function useContractInstance(blockchain) {
     ETH: "0xB2064cdc65B9A01fd87DcBbd2BB24E3e018A0330",
     BNB: "0xBnbContractAddress",
     FTM: "0xBnbContractAddress",
+    U2U: ""
   };
 
   const provider = new ethers.providers.JsonRpcProvider(rpcUrls[blockchain]);
